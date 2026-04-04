@@ -7,7 +7,7 @@ import jakarta.persistence.Embedded;
 import java.util.Objects;
 
 @Embeddable
-public class AtributosBasicos {
+public class AtributosPrimarios {
 
     @Embedded private Atributo forca;
     @Embedded private Atributo constituicao;
@@ -21,11 +21,11 @@ public class AtributosBasicos {
     private Atributo educacao;
 
     //CONSTRUCTOR
-    public AtributosBasicos(){}
+    public AtributosPrimarios(){}
 
-    public AtributosBasicos(int forca, int constituicao, int tamanho,
-                            int destreza, int aparencia, int sanidade,
-                            int inteligencia, int poder, int educacao) {
+    public AtributosPrimarios(int forca, int constituicao, int tamanho,
+                              int destreza, int aparencia, int sanidade,
+                              int inteligencia, int poder, int educacao) {
         setForca(forca);
         setConstituicao(constituicao);
         setTamanho(tamanho);
@@ -100,7 +100,7 @@ public class AtributosBasicos {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AtributosBasicos that = (AtributosBasicos) o;
+        AtributosPrimarios that = (AtributosPrimarios) o;
 
         return Objects.equals(forca, that.forca) &&
                 Objects.equals(destreza, that.destreza) &&
