@@ -1,8 +1,7 @@
 package com.senac.tsi.CallOfCthulhuRPG.domains.ficha;
 
 import com.senac.tsi.CallOfCthulhuRPG.domains.antecedentes.Antecedentes;
-import com.senac.tsi.CallOfCthulhuRPG.domains.ItensEDinheiro.ItensEDinheiroFicha;
-import com.senac.tsi.CallOfCthulhuRPG.domains.antecedentes.Pessoa;
+import com.senac.tsi.CallOfCthulhuRPG.domains.ItensEDinheiro.RecursosFicha;
 import com.senac.tsi.CallOfCthulhuRPG.domains.atributos.AtributosFicha;
 import com.senac.tsi.CallOfCthulhuRPG.domains.habilidades.HabilidadesFicha;
 import com.senac.tsi.CallOfCthulhuRPG.domains.personagens.Investigador;
@@ -36,7 +35,7 @@ public class Ficha {
     private Antecedentes historico;
 
     @OneToOne(mappedBy = "ficha", cascade = CascadeType.ALL)
-    private ItensEDinheiroFicha itensEDinheiro;
+    private RecursosFicha itensEDinheiro;
 
     @ElementCollection
     private Set<CompanheiroCampanha> companheiros;
@@ -45,7 +44,7 @@ public class Ficha {
     public Ficha(){}
 
     public Ficha(String nomeJogador, Investigador investigador, AtributosFicha atributos, StatusPersonagem status,
-                 HabilidadesFicha habilidades, Antecedentes historico, ItensEDinheiroFicha itensEDinheiro,
+                 HabilidadesFicha habilidades, Antecedentes historico, RecursosFicha itensEDinheiro,
                  Set<CompanheiroCampanha> companheiros) {
         setNomeJogador(nomeJogador);
         setInvestigador(investigador);
@@ -105,10 +104,10 @@ public class Ficha {
         this.historico = historico;
     }
 
-    public ItensEDinheiroFicha getItensEDinheiro() {
+    public RecursosFicha getItensEDinheiro() {
         return itensEDinheiro;
     }
-    public void setItensEDinheiro(ItensEDinheiroFicha itensEDinheiro) {
+    public void setItensEDinheiro(RecursosFicha itensEDinheiro) {
         this.itensEDinheiro = itensEDinheiro;
     }
 

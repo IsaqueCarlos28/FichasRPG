@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class ItensEDinheiroFicha {
+public class RecursosFicha {
     @Id
     @GeneratedValue
     private Long id;
@@ -35,9 +35,9 @@ public class ItensEDinheiroFicha {
     // CONSTRUCTOR
     // =====================
 
-    public ItensEDinheiroFicha() {}
+    public RecursosFicha() {}
 
-    public ItensEDinheiroFicha(Ficha ficha, NivelGasto nivelDeGasto, float dinheiro) {
+    public RecursosFicha(Ficha ficha, NivelGasto nivelDeGasto, float dinheiro) {
         this.ficha = ficha;
         this.nivelDeGasto = nivelDeGasto;
         this.dinheiro = dinheiro;
@@ -113,7 +113,7 @@ public class ItensEDinheiroFicha {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        ItensEDinheiroFicha that = (ItensEDinheiroFicha) o;
+        RecursosFicha that = (RecursosFicha) o;
         return Objects.equals(id, that.id);
     }
 
