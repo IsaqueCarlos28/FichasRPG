@@ -1,6 +1,6 @@
 package com.senac.tsi.CallOfCthulhuRPG.domains.ficha;
 
-import com.senac.tsi.CallOfCthulhuRPG.domains.historicoFicha.HistoricoFicha;
+import com.senac.tsi.CallOfCthulhuRPG.domains.historico.HistoricoFicha;
 import com.senac.tsi.CallOfCthulhuRPG.domains.Recursos.RecursosFicha;
 import com.senac.tsi.CallOfCthulhuRPG.domains.atributos.AtributosFicha;
 import com.senac.tsi.CallOfCthulhuRPG.domains.habilidades.HabilidadesFicha;
