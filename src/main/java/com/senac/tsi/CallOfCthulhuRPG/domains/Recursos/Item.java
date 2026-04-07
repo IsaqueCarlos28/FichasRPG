@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Item {
 
     @NotBlank(message = "Nome do item é obrigatorio")
-    @Size(min = 2, max = 255)
+    @Size(min = 1, max = 255)
     private String nome;
 
     @PositiveOrZero(message = "Preço do item não pode ser negativo")
