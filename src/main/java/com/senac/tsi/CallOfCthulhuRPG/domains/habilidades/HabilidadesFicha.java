@@ -23,11 +23,27 @@ public class HabilidadesFicha {
     @NotNull
     @Valid
     @ElementCollection
+    @CollectionTable(
+            name = "pericias_investigador",
+            joinColumns = @JoinColumn(name = "habilidades_ficha_id")
+    )
+    @AttributeOverrides({
+            @AttributeOverride(name = "nome", column = @Column(name = "investigador_nome")),
+            @AttributeOverride(name = "valor", column = @Column(name = "investigador_valor"))
+    })
     private Set< @NotNull(message = "Pericia do investigador nao pode ser Null") Pericia> PericiasInvestigador;
 
     @NotNull
     @Valid
     @ElementCollection
+    @CollectionTable(
+            name = "pericias_ocupacional",
+            joinColumns = @JoinColumn(name = "habilidades_ficha_id")
+    )
+    @AttributeOverrides({
+            @AttributeOverride(name = "nome", column = @Column(name = "ocupacional_nome")),
+            @AttributeOverride(name = "valor", column = @Column(name = "ocupacional_valor"))
+    })
     private Set<@NotNull(message = "Pericia Ocupacional nao pode ser Null") Pericia> PericiasOcupacional;
 
     @NotNull

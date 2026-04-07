@@ -1,6 +1,8 @@
 package com.senac.tsi.CallOfCthulhuRPG.domains.atributos;
 
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import jakarta.validation.Valid;
@@ -11,41 +13,50 @@ import java.util.Objects;
 @Embeddable
 public class AtributosPrimarios {
 
-    @NotNull
-    @Valid
-    @Embedded private Atributo forca;
+    @NotNull @Valid
+    @Embedded
+    @AttributeOverride(name = "valor", column = @Column(name = "forca"))
+    private Atributo forca;
 
-    @NotNull
-    @Valid
-    @Embedded private Atributo constituicao;
+    @NotNull @Valid
+    @Embedded
+    @AttributeOverride(name = "valor", column = @Column(name = "constituicao"))
+    private Atributo constituicao;
 
-    @NotNull
-    @Valid
-    @Embedded private Atributo tamanho;
+    @NotNull @Valid
+    @Embedded
+    @AttributeOverride(name = "valor", column = @Column(name = "tamanho"))
+    private Atributo tamanho;
 
-    @NotNull
-    @Valid
-    @Embedded private Atributo destreza;
+    @NotNull @Valid
+    @Embedded
+    @AttributeOverride(name = "valor", column = @Column(name = "destreza"))
+    private Atributo destreza;
 
-    @NotNull
-    @Valid
-    @Embedded private Atributo aparencia;
+    @NotNull @Valid
+    @Embedded
+    @AttributeOverride(name = "valor", column = @Column(name = "aparencia"))
+    private Atributo aparencia;
 
-    @NotNull
-    @Valid
-    @Embedded private Atributo sanidade;
+    @NotNull @Valid
+    @Embedded
+    @AttributeOverride(name = "valor", column = @Column(name = "sanidade_base"))
+    private Atributo sanidade;
 
-    @NotNull
-    @Valid
-    @Embedded private Atributo inteligencia;
+    @NotNull @Valid
+    @Embedded
+    @AttributeOverride(name = "valor", column = @Column(name = "inteligencia"))
+    private Atributo inteligencia;
 
-    @NotNull
-    @Valid
-    @Embedded private Atributo poder;
+    @NotNull @Valid
+    @Embedded
+    @AttributeOverride(name = "valor", column = @Column(name = "poder"))
+    private Atributo poder;
 
-    @NotNull
-    @Valid
-    @Embedded private Atributo educacao;
+    @NotNull @Valid
+    @Embedded
+    @AttributeOverride(name = "valor", column = @Column(name = "educacao"))
+    private Atributo educacao;
 
     //CONSTRUCTOR
     public AtributosPrimarios(){}

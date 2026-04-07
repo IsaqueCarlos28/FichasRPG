@@ -1,6 +1,6 @@
 package com.senac.tsi.CallOfCthulhuRPG.domains.habilidades;
 
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
@@ -14,6 +14,11 @@ public class Arma {
 
     @Valid
     @NotNull
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "nome", column = @Column(name = "arma_pericia_nome")),
+            @AttributeOverride(name = "valor", column = @Column(name = "arma_pericia_valor"))
+    })
     private Pericia pericia;
 
     @NotBlank
