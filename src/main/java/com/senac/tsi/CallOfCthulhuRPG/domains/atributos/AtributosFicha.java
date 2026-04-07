@@ -1,9 +1,7 @@
 package com.senac.tsi.CallOfCthulhuRPG.domains.atributos;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.senac.tsi.CallOfCthulhuRPG.domains.ficha.Ficha;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -14,9 +12,12 @@ public class AtributosFicha {
     @GeneratedValue
     private Long id;
 
+    @OneToOne
+    @JoinColumn(name = "ficha_id")
+    private Ficha ficha;
+
     @Embedded
     private AtributosPrimarios atributosPrimarios;
-
 
     private int magia;
     private int vida;

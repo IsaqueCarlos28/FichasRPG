@@ -18,25 +18,25 @@ public class Ficha {
 
     private String nomeJogador;
 
-    @OneToMany
+    @OneToOne(mappedBy = "ficha", cascade = CascadeType.ALL)
     private Investigador investigador;
 
-    @OneToMany
+    @OneToOne(mappedBy = "ficha", cascade = CascadeType.ALL)
     private AtributosFicha atributos;
 
-    @Embedded
+    @OneToOne(mappedBy = "ficha", cascade = CascadeType.ALL)
     private StatusFicha status;
 
-    @OneToMany
+    @OneToOne(mappedBy = "ficha", cascade = CascadeType.ALL)
     private HabilidadesFicha habilidades;
 
-    @OneToMany
+    @OneToOne(mappedBy = "ficha", cascade = CascadeType.ALL)
     private Antecedentes historico;
 
-    @OneToMany
+    @OneToOne(mappedBy = "ficha", cascade = CascadeType.ALL)
     private ItensEDinheiroFicha itensEDinheiro;
 
-    @OneToMany
+    @OneToOne(mappedBy = "ficha", cascade = CascadeType.ALL)
     private CompanheirosCampanha companheiros;
 
     //CONSTRUCTORS

@@ -1,8 +1,7 @@
 package com.senac.tsi.CallOfCthulhuRPG.domains.habilidades;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.senac.tsi.CallOfCthulhuRPG.domains.ficha.Ficha;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 import java.util.Set;
@@ -14,8 +13,17 @@ public class HabilidadesFicha {
     @GeneratedValue
     private Long id;
 
+    @OneToOne
+    @JoinColumn(name = "ficha_id")
+    private Ficha ficha;
+
+    @ElementCollection
     private Set<Pericia> PericiasInvestigador;
+
+    @ElementCollection
     private Set<Pericia> PericiasOcupacional;
+
+    @ElementCollection
     private Set<Arma> Armas;
 
     //CONSTRUCTOR

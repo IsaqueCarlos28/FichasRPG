@@ -1,6 +1,7 @@
 package com.senac.tsi.CallOfCthulhuRPG.domains.personagens;
 
 import com.senac.tsi.CallOfCthulhuRPG.domains.compartilhado.Genero;
+import com.senac.tsi.CallOfCthulhuRPG.domains.ficha.Ficha;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,6 +16,10 @@ public class Investigador {
     @GeneratedValue
     private Long id;
 
+    @OneToOne
+    @JoinColumn(name = "ficha_id")
+    private Ficha ficha;
+
     @NotNull
     @NotBlank(message = "O Nome do Investigador não estar em branco")
     @Size(min = 1,max = 150)
@@ -26,9 +31,9 @@ public class Investigador {
     private String ocupacao;
 
     @NotNull
-    @NotBlank(message = "O nome do investigador não estar em branco")
+    @NotBlank(message = "A residencia não estar em branco")
     @Size(min = 1,max = 150)
-    private String formacaoAcademica;
+    private String residencia;
 
     @NotNull
     @NotBlank(message = "Local de nascimento não pode estar em branco")
@@ -49,7 +54,7 @@ public class Investigador {
             , Set<String> transtornoMentail, Genero genero, int idade){
         setNomeInvestigador(nome);
         setOcupacao(ocupacao);
-        setFormacaoAcademica(formacaoAcademica);
+        setResidencia(formacaoAcademica);
         setLocalNascimento(localNascimento);
         setTranstornosMentais(transtornoMentail);
         setGenero(genero);
@@ -76,11 +81,11 @@ public class Investigador {
         this.ocupacao = ocupacao;
     }
 
-    public String getFormacaoAcademica() {
-        return formacaoAcademica;
+    public String getResidencia() {
+        return residencia;
     }
-    public void setFormacaoAcademica(String formacaoAcademica) {
-        this.formacaoAcademica = formacaoAcademica;
+    public void setResidencia(String residencia) {
+        this.residencia = residencia;
     }
 
     public String getLocalNascimento() {
@@ -110,7 +115,7 @@ public class Investigador {
     public void setIdade(int idade) {
         this.idade = idade;
     }
-
+/*
     public void addTranstornosMentais(@NotNull String transtornosMentais) {
         boolean added = this.transtornosMentais.add(transtornosMentais);
         if (!added)throw new RuntimeException("O investigador ja possui esse Transtorno Mental");
@@ -118,7 +123,7 @@ public class Investigador {
     public void removeTranstornosMentais(@NotNull String transtornosMentais) {
         boolean removed = this.transtornosMentais.remove(transtornosMentais);
         if(!removed)throw new RuntimeException("Transtorno Mental não existente");
-    }
+    } */
 
     @Override
     public boolean equals(Object o) {
@@ -145,7 +150,7 @@ public class Investigador {
                 Genero = %s;
                 Idade = %s
                 }
-                """.formatted(id,nomeInvestigador,ocupacao,formacaoAcademica,
+                """.formatted(id,nomeInvestigador,ocupacao, residencia,
                 localNascimento,transtornosMentais.toString(),genero,idade);
     }
 }

@@ -1,7 +1,10 @@
 package com.senac.tsi.CallOfCthulhuRPG.domains.habilidades;
 
+import jakarta.persistence.Embeddable;
+
 import java.util.Objects;
 
+@Embeddable
 public class Pericia {
     private String nome;
     private int valor;
