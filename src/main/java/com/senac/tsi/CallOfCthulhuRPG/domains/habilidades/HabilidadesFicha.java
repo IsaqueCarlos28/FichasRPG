@@ -2,6 +2,8 @@ package com.senac.tsi.CallOfCthulhuRPG.domains.habilidades;
 
 import com.senac.tsi.CallOfCthulhuRPG.domains.ficha.Ficha;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 import java.util.Set;
@@ -13,18 +15,22 @@ public class HabilidadesFicha {
     @GeneratedValue
     private Long id;
 
+    @NotNull(message = "Ficha é obrigatória")
     @OneToOne
     @JoinColumn(name = "ficha_id")
     private Ficha ficha;
 
+    @Valid
     @ElementCollection
-    private Set<Pericia> PericiasInvestigador;
+    private Set< @NotNull(message = "Pericia do investigador nao pode ser Null") Pericia> PericiasInvestigador;
 
+    @Valid
     @ElementCollection
-    private Set<Pericia> PericiasOcupacional;
+    private Set<@NotNull(message = "Pericia Ocupacional nao pode ser Null") Pericia> PericiasOcupacional;
 
+    @Valid
     @ElementCollection
-    private Set<Arma> Armas;
+    private Set<@NotNull(message = "Arma nao pode ser Null") Arma> Armas;
 
     //CONSTRUCTOR
     public HabilidadesFicha(){}

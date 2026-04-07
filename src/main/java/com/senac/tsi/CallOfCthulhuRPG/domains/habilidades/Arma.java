@@ -1,15 +1,31 @@
 package com.senac.tsi.CallOfCthulhuRPG.domains.habilidades;
 
 import jakarta.persistence.Embeddable;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 import java.util.Objects;
 
 @Embeddable
 public class Arma {
+    @NotBlank
+    @Size(min = 1,max = 255,message = "numero de caracteres invalidos")
     private String nome;
+
+    @Valid
+    @NotNull
     private Pericia pericia;
+
+    @NotBlank
+    @Size(min = 1,max = 255,message = "numero de caracteres invalidos")
     private String dano;
+
+    @NotBlank
+    @Size(min = 1,max = 255,message = "numero de caracteres invalidos")
     private String alcance;
+
+    @NotNull
+    @PositiveOrZero
     private int municao;
 
     //CONSTRUCTORs

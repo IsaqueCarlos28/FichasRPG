@@ -1,12 +1,19 @@
 package com.senac.tsi.CallOfCthulhuRPG.domains.habilidades;
 
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.*;
 
 import java.util.Objects;
 
 @Embeddable
 public class Pericia {
+    @NotBlank(message = "Nome da Pericia é obrigatório")
+    @Size(min = 1,max = 255,message = "numero de caracteres invalidos")
     private String nome;
+
+    @PositiveOrZero
+    @Min(0)
+    @Max(100)
     private int valor;
 
     //CONSTRUCTORs
