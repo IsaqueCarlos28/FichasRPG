@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "antecedentes")
-public class Historico {
+public class HistoricoFicha {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,10 +68,10 @@ public class Historico {
     private Set<String> fobiasEManias = new HashSet<>();
 
     //CONTRUCTORs
-    public Historico(){}
-    public Historico(Ficha ficha, String descricaoPessoais, String ideologias, Set<Pessoa> pessoasImportantes,
-                     Set<String> itensValiosos, Set<String> tracos, Set<String> tomosArcanos, Set<String> encontrosEstranhos,
-                     Set<Ferimento> machucadosECicatrizes, Set<String> fobiasEManias) {
+    public HistoricoFicha(){}
+    public HistoricoFicha(Ficha ficha, String descricaoPessoais, String ideologias, Set<Pessoa> pessoasImportantes,
+                          Set<String> itensValiosos, Set<String> tracos, Set<String> tomosArcanos, Set<String> encontrosEstranhos,
+                          Set<Ferimento> machucadosECicatrizes, Set<String> fobiasEManias) {
         setFicha(ficha);
         setDescricaoPessoais(descricaoPessoais);
         setIdeologias(ideologias);
@@ -255,7 +255,7 @@ public class Historico {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Historico that = (Historico) o;
+        HistoricoFicha that = (HistoricoFicha) o;
         return Objects.equals(id, that.id);
     }
 

@@ -1,6 +1,6 @@
 package com.senac.tsi.CallOfCthulhuRPG.domains.ficha;
 
-import com.senac.tsi.CallOfCthulhuRPG.domains.historico.Historico;
+import com.senac.tsi.CallOfCthulhuRPG.domains.historicoFicha.HistoricoFicha;
 import com.senac.tsi.CallOfCthulhuRPG.domains.Recursos.RecursosFicha;
 import com.senac.tsi.CallOfCthulhuRPG.domains.atributos.AtributosFicha;
 import com.senac.tsi.CallOfCthulhuRPG.domains.habilidades.HabilidadesFicha;
@@ -43,7 +43,7 @@ public class Ficha {
 
     @NotNull
     @OneToOne(mappedBy = "ficha", cascade = CascadeType.ALL)
-    private Historico historico;
+    private HistoricoFicha historicoFicha;
 
     @NotNull
     @OneToOne(mappedBy = "ficha", cascade = CascadeType.ALL)
@@ -58,14 +58,14 @@ public class Ficha {
     public Ficha(){}
 
     public Ficha(String nomeJogador, Investigador investigador, AtributosFicha atributos, StatusPersonagem status,
-                 HabilidadesFicha habilidades, Historico historico, RecursosFicha itensEDinheiro,
+                 HabilidadesFicha habilidades, HistoricoFicha historicoFicha, RecursosFicha itensEDinheiro,
                  Set<CompanheiroCampanha> companheiros) {
         setNomeJogador(nomeJogador);
         setInvestigador(investigador);
         setAtributos(atributos);
         setStatus(status);
         setHabilidades(habilidades);
-        setHistorico(historico);
+        setHistorico(historicoFicha);
         setItensEDinheiro(itensEDinheiro);
         setCompanheiros(companheiros);
     }
@@ -111,11 +111,11 @@ public class Ficha {
         this.habilidades = habilidades;
     }
 
-    public Historico getHistorico() {
-        return historico;
+    public HistoricoFicha getHistorico() {
+        return historicoFicha;
     }
-    public void setHistorico(Historico historico) {
-        this.historico = historico;
+    public void setHistorico(HistoricoFicha historicoFicha) {
+        this.historicoFicha = historicoFicha;
     }
 
     public RecursosFicha getItensEDinheiro() {
@@ -169,11 +169,11 @@ public class Ficha {
                 atributos= %s,
                 status= %s,
                 habilidades= %s,
-                historico= %s,
+                historicoFicha= %s,
                 itensEDinheiro= %s,
                 companheiros= %s
             }
-            """.formatted(id, nomeJogador, investigador, atributos, status, habilidades, historico,
+            """.formatted(id, nomeJogador, investigador, atributos, status, habilidades, historicoFicha,
                 itensEDinheiro, companheiros);
     }
 }
