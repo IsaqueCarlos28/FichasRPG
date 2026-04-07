@@ -1,7 +1,7 @@
 package com.senac.tsi.CallOfCthulhuRPG.domains.ficha;
 
 import com.senac.tsi.CallOfCthulhuRPG.domains.antecedentes.Antecedentes;
-import com.senac.tsi.CallOfCthulhuRPG.domains.ItensEDinheiro.RecursosFicha;
+import com.senac.tsi.CallOfCthulhuRPG.domains.Recursos.RecursosFicha;
 import com.senac.tsi.CallOfCthulhuRPG.domains.atributos.AtributosFicha;
 import com.senac.tsi.CallOfCthulhuRPG.domains.habilidades.HabilidadesFicha;
 import com.senac.tsi.CallOfCthulhuRPG.domains.personagens.Investigador;
