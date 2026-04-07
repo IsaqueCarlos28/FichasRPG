@@ -1,6 +1,6 @@
 package com.senac.tsi.CallOfCthulhuRPG.domains.ficha;
 
-import com.senac.tsi.CallOfCthulhuRPG.domains.antecedentes.Antecedentes;
+import com.senac.tsi.CallOfCthulhuRPG.domains.historico.Historico;
 import com.senac.tsi.CallOfCthulhuRPG.domains.Recursos.RecursosFicha;
 import com.senac.tsi.CallOfCthulhuRPG.domains.atributos.AtributosFicha;
 import com.senac.tsi.CallOfCthulhuRPG.domains.habilidades.HabilidadesFicha;
@@ -38,7 +38,7 @@ public class Ficha {
     private HabilidadesFicha habilidades;
 
     @OneToOne(mappedBy = "ficha", cascade = CascadeType.ALL)
-    private Antecedentes historico;
+    private Historico historico;
 
     @OneToOne(mappedBy = "ficha", cascade = CascadeType.ALL)
     private RecursosFicha itensEDinheiro;
@@ -51,7 +51,7 @@ public class Ficha {
     public Ficha(){}
 
     public Ficha(String nomeJogador, Investigador investigador, AtributosFicha atributos, StatusPersonagem status,
-                 HabilidadesFicha habilidades, Antecedentes historico, RecursosFicha itensEDinheiro,
+                 HabilidadesFicha habilidades, Historico historico, RecursosFicha itensEDinheiro,
                  Set<CompanheiroCampanha> companheiros) {
         setNomeJogador(nomeJogador);
         setInvestigador(investigador);
@@ -104,10 +104,10 @@ public class Ficha {
         this.habilidades = habilidades;
     }
 
-    public Antecedentes getHistorico() {
+    public Historico getHistorico() {
         return historico;
     }
-    public void setHistorico(Antecedentes historico) {
+    public void setHistorico(Historico historico) {
         this.historico = historico;
     }
 

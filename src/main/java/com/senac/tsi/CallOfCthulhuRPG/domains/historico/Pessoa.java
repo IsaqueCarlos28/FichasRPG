@@ -1,16 +1,30 @@
-package com.senac.tsi.CallOfCthulhuRPG.domains.antecedentes;
+package com.senac.tsi.CallOfCthulhuRPG.domains.historico;
 
 import com.senac.tsi.CallOfCthulhuRPG.domains.compartilhado.Genero;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.Objects;
 
 @Embeddable
 public class Pessoa {
-
+    @NotBlank
+    @Size(min = 2, max = 255, message = "Quantidade de caracteres invalidos")
     private String nome;
+
+    @NotBlank
+    @Size(min = 2, max = 255, message = "Quantidade de caracteres invalidos")
     private int idade;
+
+    @NotNull
+    @Enumerated
     private Genero genero;
+
+    @NotBlank
+    @Size(min = 2, max = 255, message = "Quantidade de caracteres invalidos")
     private String relacao;
 
     //CONSTRUCTORS

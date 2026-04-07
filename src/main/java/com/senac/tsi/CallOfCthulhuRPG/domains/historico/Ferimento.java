@@ -1,12 +1,19 @@
-package com.senac.tsi.CallOfCthulhuRPG.domains.antecedentes;
+package com.senac.tsi.CallOfCthulhuRPG.domains.historico;
 
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.Objects;
 
 @Embeddable
 public class Ferimento {
+    @NotBlank
+    @Size(min = 2, max = 255, message = "Quantidade de caracteres invalidos")
     private String tipo;
+
+    @NotBlank
+    @Size(min = 2, max = 255, message = "Quantidade de caracteres invalidos")
     private String local;
 
     //CONSTRUCTORs

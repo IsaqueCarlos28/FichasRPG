@@ -1,7 +1,11 @@
-package com.senac.tsi.CallOfCthulhuRPG.domains.antecedentes;
+package com.senac.tsi.CallOfCthulhuRPG.domains.historico;
 
 import com.senac.tsi.CallOfCthulhuRPG.domains.ficha.Ficha;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -10,45 +14,64 @@ import java.util.Set;
 
 @Entity
 @Table(name = "antecedentes")
-public class Antecedentes {
+public class Historico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Ficha é obrigatória")
     @OneToOne
     @JoinColumn(name = "ficha_id")
     private Ficha ficha;
 
+    @NotNull
+    @Size(min = 2, max = 255, message = "Quantidade de caracteres invalidos")
     private String descricaoPessoais;
+
+    @NotNull
+    @Size(min = 2, max = 255, message = "Quantidade de caracteres invalidos")
     private String ideologias;
 
+    @NotNull
     @ElementCollection
-    private Set<Pessoa> pessoasImportantes = new HashSet<>();
+    private Set<@NotBlank @Size(min = 2, max = 255, message = "Quantidade de caracteres invalidos")
+            Pessoa> pessoasImportantes = new HashSet<>();
 
+    @NotNull
     @ElementCollection
-    private Set<String> itensValiosos = new HashSet<>();
+    private Set<@NotBlank@Size(min = 2, max = 255, message = "Quantidade de caracteres invalidos")
+            String> itensValiosos = new HashSet<>();
 
+    @NotNull
     @ElementCollection
-    private Set<String> tracos = new HashSet<>();
+    private Set<@NotBlank @Size(min = 2, max = 255, message = "Quantidade de caracteres invalidos")
+            String> tracos = new HashSet<>();
 
+    @NotNull
     @ElementCollection
-    private Set<String> tomosArcanos = new HashSet<>();
+    private Set<@NotBlank @Size(min = 2, max = 255, message = "Quantidade de caracteres invalidos")
+            String> tomosArcanos = new HashSet<>();
 
+    @NotNull
     @ElementCollection
-    private Set<String> encontrosEstranhos = new HashSet<>();
+    private Set<@NotBlank @Size(min = 2, max = 255, message = "Quantidade de caracteres invalidos")
+            String> encontrosEstranhos = new HashSet<>();
 
+    @NotNull
+    @Valid
     @ElementCollection
     private Set<Ferimento> machucadosECicatrizes = new HashSet<>();
 
+    @NotNull
     @ElementCollection
     private Set<String> fobiasEManias = new HashSet<>();
 
     //CONTRUCTORs
-    public Antecedentes(){}
-    public Antecedentes(Ficha ficha, String descricaoPessoais, String ideologias, Set<Pessoa> pessoasImportantes,
-                        Set<String> itensValiosos, Set<String> tracos, Set<String> tomosArcanos, Set<String> encontrosEstranhos,
-                        Set<Ferimento> machucadosECicatrizes, Set<String> fobiasEManias) {
+    public Historico(){}
+    public Historico(Ficha ficha, String descricaoPessoais, String ideologias, Set<Pessoa> pessoasImportantes,
+                     Set<String> itensValiosos, Set<String> tracos, Set<String> tomosArcanos, Set<String> encontrosEstranhos,
+                     Set<Ferimento> machucadosECicatrizes, Set<String> fobiasEManias) {
         setFicha(ficha);
         setDescricaoPessoais(descricaoPessoais);
         setIdeologias(ideologias);
@@ -232,7 +255,7 @@ public class Antecedentes {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Antecedentes that = (Antecedentes) o;
+        Historico that = (Historico) o;
         return Objects.equals(id, that.id);
     }
 
