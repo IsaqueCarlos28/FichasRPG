@@ -16,6 +16,7 @@ public class Investigador {
     @GeneratedValue
     private Long id;
 
+    @NotNull(message = "Ficha é obrigatória")
     @OneToOne
     @JoinColumn(name = "ficha_id")
     private Ficha ficha;
@@ -40,8 +41,7 @@ public class Investigador {
     @Size(min = 1, max = 150)
     private String localNascimento;
 
-    private Set<String> transtornosMentais;
-
+    @NotNull(message = "Genero é obrigatório")
     @Enumerated(EnumType.STRING)
     private Genero genero;
 
@@ -51,17 +51,16 @@ public class Investigador {
     //CONSTRUCTORS
     public Investigador(){};
     public Investigador(String nome, String ocupacao, String formacaoAcademica, String localNascimento
-            , Set<String> transtornoMentail, Genero genero, int idade){
+            , Genero genero, int idade){
         setNomeInvestigador(nome);
         setOcupacao(ocupacao);
         setResidencia(formacaoAcademica);
         setLocalNascimento(localNascimento);
-        setTranstornosMentais(transtornoMentail);
         setGenero(genero);
         setIdade(idade);
     };
 
-    //GETTER AND SETTER
+    //GETTERs e SETTERs
 
     public Long getId() {
         return id;
@@ -95,13 +94,6 @@ public class Investigador {
         this.localNascimento = localNascimento;
     }
 
-    public Set<String> getTranstornosMentais() {
-        return transtornosMentais;
-    }
-    public void setTranstornosMentais(Set<String> transtornosMentais) {
-        this.transtornosMentais = new HashSet<>(transtornosMentais);
-    }
-
     public Genero getGenero() {
         return genero;
     }
@@ -115,15 +107,8 @@ public class Investigador {
     public void setIdade(int idade) {
         this.idade = idade;
     }
-/*
-    public void addTranstornosMentais(@NotNull String transtornosMentais) {
-        boolean added = this.transtornosMentais.add(transtornosMentais);
-        if (!added)throw new RuntimeException("O investigador ja possui esse Transtorno Mental");
-    }
-    public void removeTranstornosMentais(@NotNull String transtornosMentais) {
-        boolean removed = this.transtornosMentais.remove(transtornosMentais);
-        if(!removed)throw new RuntimeException("Transtorno Mental não existente");
-    } */
+
+    //METODOS
 
     @Override
     public boolean equals(Object o) {
@@ -146,11 +131,10 @@ public class Investigador {
                 Ocupação = %s;
                 Formação = %s;
                 Local de Nascimento = %s;
-                Transtornos mentais = %s;
                 Genero = %s;
                 Idade = %s
                 }
                 """.formatted(id,nomeInvestigador,ocupacao, residencia,
-                localNascimento,transtornosMentais.toString(),genero,idade);
+                localNascimento,genero,idade);
     }
 }
