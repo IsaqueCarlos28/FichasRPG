@@ -1,6 +1,11 @@
 package com.senac.tsi.CallOfCthulhuRPG.controllers;
 
 import com.senac.tsi.CallOfCthulhuRPG.repositories.HabilidadeFichaRepositorio;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -29,12 +34,24 @@ public class HabilidadesFichaController {
         this.assembler = assembler;
     }
 
+    @Operation(summary = "Listar todas habilidades")
+    @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = HabilidadesFicha.class)))
     @GetMapping
     public ResponseEntity<PagedModel<EntityModel<HabilidadesFicha>>> getAll(@ParameterObject Pageable pageable) {
         var page = repository.findAll(pageable);
         return ResponseEntity.ok(assembler.toModel(page));
     }
 
+    @Operation(summary = "Buscar habilidade por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Habilidades encontradas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = HabilidadesFicha.class))),
+            @ApiResponse(responseCode = "400", description = "ID inválido", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Habilidades não encontradas", content = @Content)
+    })
     @GetMapping("/{id}")
     public EntityModel<HabilidadesFicha> getById(@PathVariable Long id) throws HabilidadesNotFoundException {
 
@@ -46,6 +63,13 @@ public class HabilidadesFichaController {
                 linkTo(methodOn(HabilidadesFichaController.class).getAll(Pageable.unpaged())).withRel("habilidades"));
     }
 
+    @Operation(summary = "Criar novas habilidades")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Habilidades criadas com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = HabilidadesFicha.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content)
+    })
     @PostMapping
     public ResponseEntity<HabilidadesFicha> create(@RequestBody HabilidadesFicha entity) {
         repository.save(entity);
@@ -54,6 +78,13 @@ public class HabilidadesFichaController {
                 .body(entity);
     }
 
+    @Operation(summary = "Atualizar Habilidades")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Habilidades atualizadas com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = HabilidadesFicha.class))),
+            @ApiResponse(responseCode = "404", description = "Habilidades não encontradas", content = @Content)
+    })
     @PutMapping("/{id}")
     public ResponseEntity<HabilidadesFicha> update(@PathVariable Long id,
                                                    @RequestBody HabilidadesFicha updated) throws HabilidadesNotFoundException {
@@ -69,6 +100,11 @@ public class HabilidadesFichaController {
         }).orElseThrow(() -> new HabilidadesNotFoundException("Habilidade " + id + " não encontrada"));
     }
 
+    @Operation(summary = "Deletar Habilidades")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Habilidades deletadas com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Habilidades não encontradas", content = @Content)
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) throws HabilidadesNotFoundException {
 

@@ -1,12 +1,20 @@
 package com.senac.tsi.CallOfCthulhuRPG.controllers;
 
 import com.senac.tsi.CallOfCthulhuRPG.domains.ficha.Ficha;
+import com.senac.tsi.CallOfCthulhuRPG.domains.habilidades.HabilidadesFicha;
 import com.senac.tsi.CallOfCthulhuRPG.exceptions.FichaNotFoundException;
 import com.senac.tsi.CallOfCthulhuRPG.repositories.FichaRepositorio;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
@@ -29,12 +37,28 @@ public class FichaController {
         this.assembler = assembler;
     }
 
+    @Tag(name = "Get")
+    @Operation(summary = "Listar todas habilidades")
+    @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = HabilidadesFicha.class)))
     @GetMapping
     public ResponseEntity<PagedModel<EntityModel<Ficha>>> getAll(Pageable pageable) {
         return ResponseEntity.ok(assembler.toModel(repository.findAll(pageable)));
     }
 
+
+
+    @Operation(summary = "Buscar habilidades por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Habilidades encontradas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = HabilidadesFicha.class))),
+            @ApiResponse(responseCode = "400", description = "ID inválido", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Habilidades não encontradas", content = @Content)
+    })
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public EntityModel<Ficha> getById(@PathVariable Long id) throws FichaNotFoundException {
         var ficha = repository.findById(id)
                 .orElseThrow(() -> new FichaNotFoundException("Ficha" + id + "não encontrada"));
@@ -44,12 +68,26 @@ public class FichaController {
                 linkTo(methodOn(FichaController.class).getAll(Pageable.unpaged())).withRel("fichas"));
     }
 
+    @Operation(summary = "Criar novas Ficha")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Ficha criadas com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = HabilidadesFicha.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content)
+    })
     @PostMapping
     public ResponseEntity<Ficha> create(@RequestBody Ficha ficha) {
         repository.save(ficha);
         return ResponseEntity.created(URI.create("/fichas/" + ficha.getId())).body(ficha);
     }
 
+    @Operation(summary = "Atualizar Ficha")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ficha atualizadas com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = HabilidadesFicha.class))),
+            @ApiResponse(responseCode = "404", description = "Ficha não encontradas", content = @Content)
+    })
     @PutMapping("/{id}")
     public ResponseEntity<Ficha> update(@PathVariable Long id, @RequestBody Ficha updated) throws FichaNotFoundException {
 
@@ -67,6 +105,11 @@ public class FichaController {
         }).orElseThrow(() -> new FichaNotFoundException("Ficha" + id + "não encontrada"));
     }
 
+    @Operation(summary = "Ficha Atributos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Ficha deletada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Ficha não encontradas", content = @Content)
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) throws FichaNotFoundException {
         if (!repository.existsById(id))

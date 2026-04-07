@@ -1,6 +1,12 @@
 package com.senac.tsi.CallOfCthulhuRPG.controllers;
 
+import com.senac.tsi.CallOfCthulhuRPG.domains.habilidades.HabilidadesFicha;
 import com.senac.tsi.CallOfCthulhuRPG.repositories.HistoricoFichaRepositorio;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -29,12 +35,24 @@ public class HistoricoFichaController {
         this.assembler = assembler;
     }
 
+    @Operation(summary = "Listar todas habilidades")
+    @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = HabilidadesFicha.class)))
     @GetMapping
     public ResponseEntity<PagedModel<EntityModel<HistoricoFicha>>> getAll(@ParameterObject Pageable pageable) {
         var page = repository.findAll(pageable);
         return ResponseEntity.ok(assembler.toModel(page));
     }
 
+    @Operation(summary = "Buscar historico por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Habilidades encontradas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = HabilidadesFicha.class))),
+            @ApiResponse(responseCode = "400", description = "ID inválido", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Habilidades não encontradas", content = @Content)
+    })
     @GetMapping("/{id}")
     public EntityModel<HistoricoFicha> getById(@PathVariable Long id) throws HistoricoNotFoundException {
 
@@ -46,6 +64,13 @@ public class HistoricoFichaController {
                 linkTo(methodOn(HistoricoFichaController.class).getAll(Pageable.unpaged())).withRel("historicos"));
     }
 
+    @Operation(summary = "Criar novas historico")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Historico criadas com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = HabilidadesFicha.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content)
+    })
     @PostMapping
     public ResponseEntity<HistoricoFicha> create(@RequestBody HistoricoFicha entity) {
         repository.save(entity);
@@ -54,6 +79,13 @@ public class HistoricoFichaController {
                 .body(entity);
     }
 
+    @Operation(summary = "Atualizar Historico de personagem")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Historico de personagem atualizadas com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = HabilidadesFicha.class))),
+            @ApiResponse(responseCode = "404", description = "Historico de personagem não encontradas", content = @Content)
+    })
     @PutMapping("/{id}")
     public ResponseEntity<HistoricoFicha> update(@PathVariable Long id,
                                                  @RequestBody HistoricoFicha updated) throws HistoricoNotFoundException {
@@ -75,6 +107,11 @@ public class HistoricoFichaController {
         }).orElseThrow(() -> new HistoricoNotFoundException("Historico " + id + "   não encontrado"));
     }
 
+    @Operation(summary = "Deletar Historico do Investigado")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Historico deletado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Historico não encontradas", content = @Content)
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) throws HistoricoNotFoundException {
 

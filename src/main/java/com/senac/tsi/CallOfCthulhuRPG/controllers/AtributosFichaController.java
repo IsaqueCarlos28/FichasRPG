@@ -1,8 +1,14 @@
 package com.senac.tsi.CallOfCthulhuRPG.controllers;
 
 import com.senac.tsi.CallOfCthulhuRPG.domains.atributos.AtributosFicha;
+import com.senac.tsi.CallOfCthulhuRPG.domains.habilidades.HabilidadesFicha;
 import com.senac.tsi.CallOfCthulhuRPG.exceptions.AtributosNotFoundException;
 import com.senac.tsi.CallOfCthulhuRPG.repositories.AtributosFichaRepositorio;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
@@ -30,6 +36,14 @@ public class AtributosFichaController {
         return ResponseEntity.ok(assembler.toModel(repository.findAll(pageable)));
     }
 
+    @Operation(summary = "Buscar Atributos da Ficha por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Atributos da Ficha encontradas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = HabilidadesFicha.class))),
+            @ApiResponse(responseCode = "400", description = "ID inválido", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Atributos da Ficha não encontradas", content = @Content)
+    })
     @GetMapping("/{id}")
     public EntityModel<AtributosFicha> getById(@PathVariable Long id) throws AtributosNotFoundException {
         return EntityModel.of(
@@ -38,12 +52,26 @@ public class AtributosFichaController {
         );
     }
 
+    @Operation(summary = "Criar novas Atributos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Atributos criadas com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = HabilidadesFicha.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content)
+    })
     @PostMapping
     public ResponseEntity<AtributosFicha> create(@RequestBody AtributosFicha entity) {
         repository.save(entity);
         return ResponseEntity.created(URI.create("/atributos/" + entity.getId())).body(entity);
     }
 
+    @Operation(summary = "Atualizar Atributos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Atributos atualizadas com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = HabilidadesFicha.class))),
+            @ApiResponse(responseCode = "404", description = "Atributos não encontradas", content = @Content)
+    })
     @PutMapping("/{id}")
     public ResponseEntity<AtributosFicha> update(@PathVariable Long id,
                                                  @RequestBody AtributosFicha updated) throws AtributosNotFoundException {
@@ -57,6 +85,11 @@ public class AtributosFichaController {
         }).orElseThrow(() -> new AtributosNotFoundException("Atributo " +  id + " nao encontrado"));
     }
 
+    @Operation(summary = "Deletar Atributos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Atributos deletada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Atributos não encontradas", content = @Content)
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) throws AtributosNotFoundException {
         if (!repository.existsById(id))
