@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
         info = @Info(
                 title = "CallOfCthulhuRPG Fichas",
-                version = "1.0.0",
+                version = "0.1.0",
                 description = "Crie e Utilize a sua fichas para jogar CallOfCthulhu com seus amigos!",
                 contact = @Contact(
                         name = "Isaque Carlos",
