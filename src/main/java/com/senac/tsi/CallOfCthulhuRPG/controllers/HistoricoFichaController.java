@@ -36,7 +36,7 @@ public class HistoricoFichaController {
         this.assembler = assembler;
     }
 
-    @Tag(name = "Get")
+    @Tag(name = "Historicos")
     @Operation(summary = "Listar todas habilidades")
     @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso",
             content = @Content(mediaType = "application/json",
@@ -47,7 +47,7 @@ public class HistoricoFichaController {
         return ResponseEntity.ok(assembler.toModel(page));
     }
 
-    @Tag(name = "Get")
+    @Tag(name = "Historicos")
     @Operation(summary = "Buscar historico por ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Habilidades encontradas",
@@ -67,7 +67,7 @@ public class HistoricoFichaController {
                 linkTo(methodOn(HistoricoFichaController.class).getAll(Pageable.unpaged())).withRel("historicos"));
     }
 
-    @Tag(name = "Post")
+    @Tag(name = "Historicos")
     @Operation(summary = "Criar novas historico")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Historico criadas com sucesso",
@@ -83,7 +83,7 @@ public class HistoricoFichaController {
                 .body(entity);
     }
 
-    @Tag(name = "Put")
+    @Tag(name = "Historicos")
     @Operation(summary = "Atualizar Historico de personagem")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Historico de personagem atualizadas com sucesso",
@@ -112,7 +112,7 @@ public class HistoricoFichaController {
         }).orElseThrow(() -> new HistoricoNotFoundException("Historico " + id + "   não encontrado"));
     }
 
-    @Tag(name = "Delete")
+    @Tag(name = "Historicos")
     @Operation(summary = "Deletar Historico do Investigado")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Historico deletado com sucesso"),

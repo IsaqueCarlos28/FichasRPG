@@ -35,7 +35,7 @@ public class HabilidadesFichaController {
         this.assembler = assembler;
     }
 
-    @Tag(name = "Get")
+    @Tag(name = "Habilidades")
     @Operation(summary = "Listar todas habilidades")
     @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso",
             content = @Content(mediaType = "application/json",
@@ -46,7 +46,7 @@ public class HabilidadesFichaController {
         return ResponseEntity.ok(assembler.toModel(page));
     }
 
-    @Tag(name = "Get")
+    @Tag(name = "Habilidades")
     @Operation(summary = "Buscar habilidade por ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Habilidades encontradas",
@@ -66,7 +66,7 @@ public class HabilidadesFichaController {
                 linkTo(methodOn(HabilidadesFichaController.class).getAll(Pageable.unpaged())).withRel("habilidades"));
     }
 
-    @Tag(name = "Post")
+    @Tag(name = "Habilidades")
     @Operation(summary = "Criar novas habilidades")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Habilidades criadas com sucesso",
@@ -82,7 +82,7 @@ public class HabilidadesFichaController {
                 .body(entity);
     }
 
-    @Tag(name = "Put")
+    @Tag(name = "Habilidades")
     @Operation(summary = "Atualizar Habilidades")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Habilidades atualizadas com sucesso",
@@ -105,7 +105,7 @@ public class HabilidadesFichaController {
         }).orElseThrow(() -> new HabilidadesNotFoundException("Habilidade " + id + " não encontrada"));
     }
 
-    @Tag(name = "Delete")
+    @Tag(name = "Habilidades")
     @Operation(summary = "Deletar Habilidades")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Habilidades deletadas com sucesso"),

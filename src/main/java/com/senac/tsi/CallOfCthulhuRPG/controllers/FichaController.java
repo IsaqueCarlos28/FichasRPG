@@ -37,7 +37,7 @@ public class FichaController {
         this.assembler = assembler;
     }
 
-    @Tag(name = "Get")
+    @Tag(name = "Ficha")
     @Operation(summary = "Listar todas as Fichas")
     @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso",
             content = @Content(mediaType = "application/json",
@@ -48,7 +48,7 @@ public class FichaController {
     }
 
 
-    @Tag(name = "Get")
+    @Tag(name = "Ficha")
     @Operation(summary = "Buscar Ficha por ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ficha encontradas",
@@ -68,7 +68,7 @@ public class FichaController {
                 linkTo(methodOn(FichaController.class).getAll(Pageable.unpaged())).withRel("fichas"));
     }
 
-    @Tag(name = "Post")
+    @Tag(name = "Ficha")
     @Operation(summary = "Criar novas Ficha")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Ficha criadas com sucesso",
@@ -82,7 +82,7 @@ public class FichaController {
         return ResponseEntity.created(URI.create("/fichas/" + ficha.getId())).body(ficha);
     }
 
-    @Tag(name = "Put")
+    @Tag(name = "Ficha")
     @Operation(summary = "Atualizar Ficha")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ficha atualizadas com sucesso",
@@ -107,7 +107,7 @@ public class FichaController {
         }).orElseThrow(() -> new FichaNotFoundException("Ficha" + id + "não encontrada"));
     }
 
-    @Tag(name = "Delete")
+    @Tag(name = "Ficha")
     @Operation(summary = "Ficha Atributos")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Ficha deletada com sucesso"),

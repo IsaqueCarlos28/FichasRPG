@@ -32,7 +32,7 @@ public class InvestigadorController {
         this.assembler = assembler;
     }
 
-    @Tag(name = "Get")
+    @Tag(name = "Investigador")
     @Operation(summary = "Listar todos os investigadores")
     @ApiResponse(responseCode = "200", description = "Investigadores retornados com sucesso",
             content = @Content(mediaType = "application/json",
@@ -42,7 +42,7 @@ public class InvestigadorController {
         return ResponseEntity.ok(assembler.toModel(repository.findAll(pageable)));
     }
 
-    @Tag(name = "Get")
+    @Tag(name = "Investigador")
     @Operation(summary = "Buscar Investigador por ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Investigador encontradas",
@@ -59,7 +59,7 @@ public class InvestigadorController {
         return EntityModel.of(entity);
     }
 
-    @Tag(name = "Post")
+    @Tag(name = "Investigador")
     @Operation(summary = "Criar novas Investigador")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Investigador criadas com sucesso",
@@ -73,7 +73,7 @@ public class InvestigadorController {
         return ResponseEntity.created(URI.create("/investigadores/" + entity.getId())).body(entity);
     }
 
-    @Tag(name = "Put")
+    @Tag(name = "Investigador")
     @Operation(summary = "Atualizar Investigador")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Investigador atualizado com sucesso",
@@ -97,7 +97,7 @@ public class InvestigadorController {
         }).orElseThrow(() -> new InvestigadorNotFoundException("Investigador: " + id + " não encontrada"));
     }
 
-    @Tag(name = "Delete")
+    @Tag(name = "Investigador")
     @Operation(summary = "Deletar Investigador")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Investigador deletado com sucesso"),
