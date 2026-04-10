@@ -85,3 +85,99 @@ alter table if exists recursos_ficha_posses add constraint FK4tas2rgp3i26i124r5r
 2026-04-09 13:12:31.524885-03:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
 select af1_0.id,af1_0.aparencia,af1_0.constituicao,af1_0.destreza,af1_0.educacao,af1_0.forca,af1_0.inteligencia,af1_0.poder,af1_0.sanidade_base,af1_0.tamanho,af1_0.corpo,af1_0.dano_extra,af1_0.ficha_id,f1_0.id,h1_0.id,h1_0.ficha_id,hf1_0.id,hf1_0.descricao_pessoais,hf1_0.ficha_id,hf1_0.ideologias,i1_0.id,i1_0.ficha_id,i1_0.genero,i1_0.idade,i1_0.local_nascimento,i1_0.nome_investigador,i1_0.ocupacao,i1_0.residencia,ie1_0.id,ie1_0.dinheiro,ie1_0.ficha_id,ie1_0.nivel_de_gasto,f1_0.nome_jogador,f1_0.magia_atual,f1_0.sanidade_atual,f1_0.sorte_atual,f1_0.vida_atual,af1_0.magia,af1_0.sanidade,af1_0.sorte,af1_0.vida from atributos_ficha af1_0 join ficha f1_0 on f1_0.id=af1_0.ficha_id left join habilidades_ficha h1_0 on f1_0.id=h1_0.ficha_id left join antecedentes hf1_0 on f1_0.id=hf1_0.ficha_id left join investigador i1_0 on f1_0.id=i1_0.ficha_id left join recursos_ficha ie1_0 on f1_0.id=ie1_0.ficha_id where af1_0.id=? [42102-240]
+2026-04-09 15:03:03.930486-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create global temporary table HTE_recursos_ficha(dinheiro float(24), rn_ integer not null, ficha_id bigint, id bigint, nivelDeGasto enum ([*]), primary key (rn_)) transactional"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+create global temporary table HTE_recursos_ficha(dinheiro float(24), rn_ integer not null, ficha_id bigint, id bigint, nivelDeGasto enum (), primary key (rn_)) transactional [42001-240]
+2026-04-09 15:03:04.258050-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table recursos_ficha (id bigint not null, dinheiro float(24) not null, nivel_de_gasto enum ([*]) not null, ficha_id bigint not null, primary key (id))"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+create table recursos_ficha (id bigint not null, dinheiro float(24) not null, nivel_de_gasto enum () not null, ficha_id bigint not null, primary key (id)) [42001-240]
+2026-04-09 15:03:04.281050-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
+alter table if exists recursos_ficha_inventario add constraint FKiqy364wxedkpb5ga7ay18epf foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
+2026-04-09 15:03:04.286048-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
+alter table if exists recursos_ficha_posses add constraint FK4tas2rgp3i26i124r5r501mb2 foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
+2026-04-09 15:15:49.844306-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create global temporary table HTE_recursos_ficha(dinheiro float(24), rn_ integer not null, ficha_id bigint, id bigint, nivelDeGasto enum ([*]), primary key (rn_)) transactional"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+create global temporary table HTE_recursos_ficha(dinheiro float(24), rn_ integer not null, ficha_id bigint, id bigint, nivelDeGasto enum (), primary key (rn_)) transactional [42001-240]
+2026-04-09 15:15:50.595070-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table recursos_ficha (id bigint not null, dinheiro float(24) not null, nivel_de_gasto enum ([*]) not null, ficha_id bigint not null, primary key (id))"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+create table recursos_ficha (id bigint not null, dinheiro float(24) not null, nivel_de_gasto enum () not null, ficha_id bigint not null, primary key (id)) [42001-240]
+2026-04-09 15:15:50.640533-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
+alter table if exists recursos_ficha_inventario add constraint FKiqy364wxedkpb5ga7ay18epf foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
+2026-04-09 15:15:50.647307-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
+alter table if exists recursos_ficha_posses add constraint FK4tas2rgp3i26i124r5r501mb2 foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
+2026-04-09 15:19:28.691779-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create global temporary table HTE_recursos_ficha(dinheiro float(24), rn_ integer not null, ficha_id bigint, id bigint, nivelDeGasto enum ([*]), primary key (rn_)) transactional"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+create global temporary table HTE_recursos_ficha(dinheiro float(24), rn_ integer not null, ficha_id bigint, id bigint, nivelDeGasto enum (), primary key (rn_)) transactional [42001-240]
+2026-04-09 15:19:29.018544-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table recursos_ficha (id bigint not null, dinheiro float(24) not null, nivel_de_gasto enum ([*]) not null, ficha_id bigint not null, primary key (id))"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+create table recursos_ficha (id bigint not null, dinheiro float(24) not null, nivel_de_gasto enum () not null, ficha_id bigint not null, primary key (id)) [42001-240]
+2026-04-09 15:19:29.035366-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
+alter table if exists recursos_ficha_inventario add constraint FKiqy364wxedkpb5ga7ay18epf foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
+2026-04-09 15:19:29.043063-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
+alter table if exists recursos_ficha_posses add constraint FK4tas2rgp3i26i124r5r501mb2 foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
+2026-04-09 15:20:23.736528-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create global temporary table HTE_recursos_ficha(dinheiro float(24), rn_ integer not null, ficha_id bigint, id bigint, nivelDeGasto enum ([*]), primary key (rn_)) transactional"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+create global temporary table HTE_recursos_ficha(dinheiro float(24), rn_ integer not null, ficha_id bigint, id bigint, nivelDeGasto enum (), primary key (rn_)) transactional [42001-240]
+2026-04-09 15:20:24.157280-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table recursos_ficha (id bigint not null, dinheiro float(24) not null, nivel_de_gasto enum ([*]) not null, ficha_id bigint not null, primary key (id))"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+create table recursos_ficha (id bigint not null, dinheiro float(24) not null, nivel_de_gasto enum () not null, ficha_id bigint not null, primary key (id)) [42001-240]
+2026-04-09 15:20:24.180221-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
+alter table if exists recursos_ficha_inventario add constraint FKiqy364wxedkpb5ga7ay18epf foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
+2026-04-09 15:20:24.182877-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
+alter table if exists recursos_ficha_posses add constraint FK4tas2rgp3i26i124r5r501mb2 foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
+2026-04-09 15:21:25.607055-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create global temporary table HTE_recursos_ficha(dinheiro float(24), rn_ integer not null, ficha_id bigint, id bigint, nivelDeGasto enum ([*]), primary key (rn_)) transactional"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+create global temporary table HTE_recursos_ficha(dinheiro float(24), rn_ integer not null, ficha_id bigint, id bigint, nivelDeGasto enum (), primary key (rn_)) transactional [42001-240]
+2026-04-09 15:21:25.923037-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table recursos_ficha (id bigint not null, dinheiro float(24) not null, nivel_de_gasto enum ([*]) not null, ficha_id bigint not null, primary key (id))"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+create table recursos_ficha (id bigint not null, dinheiro float(24) not null, nivel_de_gasto enum () not null, ficha_id bigint not null, primary key (id)) [42001-240]
+2026-04-09 15:21:25.939314-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
+alter table if exists recursos_ficha_inventario add constraint FKiqy364wxedkpb5ga7ay18epf foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
+2026-04-09 15:21:25.945127-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
+alter table if exists recursos_ficha_posses add constraint FK4tas2rgp3i26i124r5r501mb2 foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
+2026-04-09 15:22:14.712668-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create global temporary table HTE_recursos_ficha(dinheiro float(24), rn_ integer not null, ficha_id bigint, id bigint, nivelDeGasto enum ([*]), primary key (rn_)) transactional"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+create global temporary table HTE_recursos_ficha(dinheiro float(24), rn_ integer not null, ficha_id bigint, id bigint, nivelDeGasto enum (), primary key (rn_)) transactional [42001-240]
+2026-04-09 15:22:15.032843-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table recursos_ficha (id bigint not null, dinheiro float(24) not null, nivel_de_gasto enum ([*]) not null, ficha_id bigint not null, primary key (id))"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+create table recursos_ficha (id bigint not null, dinheiro float(24) not null, nivel_de_gasto enum () not null, ficha_id bigint not null, primary key (id)) [42001-240]
+2026-04-09 15:22:15.047911-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
+alter table if exists recursos_ficha_inventario add constraint FKiqy364wxedkpb5ga7ay18epf foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
+2026-04-09 15:22:15.047911-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
+alter table if exists recursos_ficha_posses add constraint FK4tas2rgp3i26i124r5r501mb2 foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
+2026-04-09 15:22:54.700203-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create global temporary table HTE_recursos_ficha(dinheiro float(24), rn_ integer not null, ficha_id bigint, id bigint, nivelDeGasto enum ([*]), primary key (rn_)) transactional"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+create global temporary table HTE_recursos_ficha(dinheiro float(24), rn_ integer not null, ficha_id bigint, id bigint, nivelDeGasto enum (), primary key (rn_)) transactional [42001-240]
+2026-04-09 15:22:55.030376-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table recursos_ficha (id bigint not null, dinheiro float(24) not null, nivel_de_gasto enum ([*]) not null, ficha_id bigint not null, primary key (id))"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+create table recursos_ficha (id bigint not null, dinheiro float(24) not null, nivel_de_gasto enum () not null, ficha_id bigint not null, primary key (id)) [42001-240]
+2026-04-09 15:22:55.046658-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
+alter table if exists recursos_ficha_inventario add constraint FKiqy364wxedkpb5ga7ay18epf foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
+2026-04-09 15:22:55.048659-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
+alter table if exists recursos_ficha_posses add constraint FK4tas2rgp3i26i124r5r501mb2 foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
+2026-04-09 15:25:21.833242-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create global temporary table HTE_recursos_ficha(dinheiro float(24), rn_ integer not null, ficha_id bigint, id bigint, nivelDeGasto enum ([*]), primary key (rn_)) transactional"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+create global temporary table HTE_recursos_ficha(dinheiro float(24), rn_ integer not null, ficha_id bigint, id bigint, nivelDeGasto enum (), primary key (rn_)) transactional [42001-240]
+2026-04-09 15:25:22.207926-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table recursos_ficha (id bigint not null, dinheiro float(24) not null, nivel_de_gasto enum ([*]) not null, ficha_id bigint not null, primary key (id))"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+create table recursos_ficha (id bigint not null, dinheiro float(24) not null, nivel_de_gasto enum () not null, ficha_id bigint not null, primary key (id)) [42001-240]
+2026-04-09 15:25:22.251608-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
+alter table if exists recursos_ficha_inventario add constraint FKiqy364wxedkpb5ga7ay18epf foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
+2026-04-09 15:25:22.254609-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
+alter table if exists recursos_ficha_posses add constraint FK4tas2rgp3i26i124r5r501mb2 foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
