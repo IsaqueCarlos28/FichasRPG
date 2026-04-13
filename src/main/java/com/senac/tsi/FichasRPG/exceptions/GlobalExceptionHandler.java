@@ -12,12 +12,15 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(TagNotFoundException.class)
-    public ResponseEntity<Map<String,Object>> handleTagNotFound(TagNotFoundException ex){
+    @ExceptionHandler(RPGNotFoundException.class)
+    public ResponseEntity<Map<String,Object>> handleTagNotFound(RPGNotFoundException ex){
         Map<String,Object> body = new HashMap<>();
         body.put("timeStamp", LocalDateTime.now());
         body.put("status", HttpStatus.NOT_FOUND.value());
         body.put("error", "NotFound");
+        body.put("resource",ex.getResource());
+        body.put("parameter",ex.getField());
+        body.put("value",ex.getValue());
         body.put("message", ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);

@@ -2,6 +2,7 @@ package com.senac.tsi.FichasRPG.controllers;
 
 import com.senac.tsi.FichasRPG.assemblers.TagAssembler;
 import com.senac.tsi.FichasRPG.domains.tags.Tag;
+import com.senac.tsi.FichasRPG.exceptions.RPGNotFoundException;
 import com.senac.tsi.FichasRPG.exceptions.TagNotFoundException;
 import com.senac.tsi.FichasRPG.repositories.TagsRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,7 +49,7 @@ public class TagsController {
     @GetMapping("/{id}")
     public EntityModel<Tag> getTagById(@PathVariable(name = "id") long id){
         var tag = repository.findById(id).orElseThrow(
-                ()-> new TagNotFoundException(id)
+                ()-> new RPGNotFoundException("Tag","id",id)
         );
         return tagAssembler.toModel(tag);
     }
