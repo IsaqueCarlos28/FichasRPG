@@ -40,22 +40,22 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
     }
 
-    @ExceptionHandler(RpgValidationException.class)
-    public ResponseEntity<Map<String,Object>> handleBadInput(RpgValidationException ex){
+    @ExceptionHandler(RPGValidationException.class)
+    public ResponseEntity<Map<String,Object>> handleBadInput(RPGValidationException ex){
         Map<String,Object> body = new HashMap<>();
         body.put("timeStamp", LocalDateTime.now());
         body.put("status", HttpStatus.BAD_REQUEST.value());
         body.put("error", "Bad request");
         body.put("message", ex.getMessage());
-        body.put("process",ex.getProcesso());
-        body.put("wrong parameter",ex.getParametroErrado());
-        body.put("expected parameter", ex.getParametroEsperado());
+        body.put("process",ex.getProcess());
+        body.put("wrong parameter",ex.getWrongParameter());
+        body.put("expected parameter", ex.getExpectedParameter());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
 
-    @ExceptionHandler(RpgAlreadyExistsException.class)
-    public ResponseEntity<Map<String, Object>> handleAlreadyExists(RpgAlreadyExistsException ex){
+    @ExceptionHandler(RPGAlreadyExistsException.class)
+    public ResponseEntity<Map<String, Object>> handleAlreadyExists(RPGAlreadyExistsException ex){
 
         Map<String, Object> body = new HashMap<>();
 
@@ -63,7 +63,8 @@ public class GlobalExceptionHandler {
         body.put("status", HttpStatus.CONFLICT.value());
         body.put("error", "Conflict");
         body.put("message", ex.getMessage());
-        body.put("elemento", ex.getElemento());
+        body.put("resource", ex.getResource());
+        body.put("conflicted parameter",ex.getParameter());
 
         return ResponseEntity.badRequest().body(body);
     }
