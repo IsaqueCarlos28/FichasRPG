@@ -7,10 +7,12 @@ import com.senac.tsi.FichasRPG.exceptions.RPGNotFoundException;
 import com.senac.tsi.FichasRPG.repositories.ModeloFichaRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/modelos-ficha")
-@io.swagger.v3.oas.annotations.tags.Tag(name = "Modelo Ficha")
+@Tag(name = "Modelo Ficha", description = "Operações relacionadas aos modelos base das fichas de RPG")
 public class ModeloFichaController {
 
     private final ModeloFichaRepository repository;
@@ -35,8 +37,10 @@ public class ModeloFichaController {
         this.assembler = assembler;
     }
 
-    // ✅ GET ALL
-    @Operation(summary = "Listar todos os Modelos de Ficha")
+
+    // 🔥 GET ALL
+    @Operation(summary = "Listar modelos", description = "Retorna uma lista paginada de todos os modelos de ficha")
+    @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
     @GetMapping
     public ResponseEntity<PagedModel<EntityModel<ModeloFicha>>> getAll(
             @ParameterObject Pageable pageable) {
@@ -48,15 +52,16 @@ public class ModeloFichaController {
         );
     }
 
-    // ✅ GET BY ID
-    @Operation(summary = "Buscar Modelo de Ficha por ID")
+    // 🔥 GET BY ID
+    @Operation(summary = "Buscar modelo por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Modelo encontrado",
-                    content = @Content(schema = @Schema(implementation = ModeloFicha.class))),
+            @ApiResponse(responseCode = "200", description = "Modelo encontrado"),
             @ApiResponse(responseCode = "404", description = "Modelo não encontrado")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<ModeloFicha>> getById(@PathVariable Long id) {
+    public ResponseEntity<EntityModel<ModeloFicha>> getById(
+            @Parameter(description = "ID do modelo", example = "1")
+            @PathVariable Long id) {
 
         var modelo = repository.findById(id)
                 .orElseThrow(() -> new RPGNotFoundException("ModeloFicha","id",id));
@@ -64,10 +69,12 @@ public class ModeloFichaController {
         return ResponseEntity.ok(assembler.toModel(modelo));
     }
 
-    // ✅ GET BY SISTEMA
-    @Operation(summary = "Buscar Modelos por Sistema RPG")
+    // 🔥 GET BY SISTEMA
+    @Operation(summary = "Buscar modelos por sistema")
+    @ApiResponse(responseCode = "200", description = "Modelos filtrados com sucesso")
     @GetMapping("/sistema/{sistema}")
     public ResponseEntity<PagedModel<EntityModel<ModeloFicha>>> getBySistema(
+            @Parameter(description = "Nome do sistema", example = "D&D 5e")
             @PathVariable String sistema,
             @ParameterObject Pageable pageable) {
 
@@ -78,13 +85,21 @@ public class ModeloFichaController {
         );
     }
 
-    // ✅ CREATE
-    @Operation(summary = "Criar Modelo de Ficha")
+    // 🔥 CREATE
+    @Operation(summary = "Criar modelo")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Modelo criado"),
+            @ApiResponse(responseCode = "409", description = "Sistema já cadastrado")
+    })
     @PostMapping
     public ResponseEntity<EntityModel<ModeloFicha>> create(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Dados do novo modelo",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = ModeloFicha.class))
+            )
             @RequestBody ModeloFicha modelo) {
 
-        // optional rule: avoid duplicate system (if you want)
         if (repository.existsBySistemaRPG(modelo.getSistemaRPG())) {
             throw new RPGAlreadyExistsException("ModeloFicha","sistemaRPG");
         }
@@ -96,10 +111,16 @@ public class ModeloFichaController {
                 .body(assembler.toModel(modelo));
     }
 
-    // ✅ UPDATE
-    @Operation(summary = "Atualizar Modelo de Ficha")
+    // 🔥 UPDATE
+    @Operation(summary = "Atualizar modelo")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Modelo atualizado"),
+            @ApiResponse(responseCode = "201", description = "Modelo criado (Upsert)"),
+            @ApiResponse(responseCode = "404", description = "Modelo não encontrado")
+    })
     @PutMapping("/{id}")
     public ResponseEntity<EntityModel<ModeloFicha>> update(
+            @Parameter(description = "ID do modelo a ser atualizado", example = "1")
             @PathVariable Long id,
             @RequestBody ModeloFicha updated) {
 
@@ -113,17 +134,19 @@ public class ModeloFichaController {
             return ResponseEntity.ok(assembler.toModel(modelo));
 
         }).orElseGet(() -> {
-
             repository.save(updated);
-
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(assembler.toModel(updated));
         });
     }
 
-    // ✅ DELETE
-    @Operation(summary = "Deletar Modelo de Ficha")
+    // 🔥 DELETE
+    @Operation(summary = "Deletar modelo")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Modelo removido"),
+            @ApiResponse(responseCode = "404", description = "Modelo não encontrado")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
