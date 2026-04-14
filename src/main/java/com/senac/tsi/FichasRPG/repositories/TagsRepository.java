@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface TagsRepository extends JpaRepository<Tag,Long> {
     Optional<Tag> findByName(String nameTag);
+    Boolean existsByName(String tagName);
 }

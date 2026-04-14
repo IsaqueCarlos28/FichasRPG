@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -115,18 +116,33 @@ public class TagsController {
                     content = @Content)
     })
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<EntityModel<Tag>> createTag(@io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Tag to create", required = true,
                   content = @Content(mediaType = "application/json",
                   schema = @Schema(implementation = Tag.class),
             examples = @ExampleObject(value = "{ \"nomeTag\": }")))
-        @RequestBody Tag novaTag){
-        repository.save(novaTag);
+        @RequestBody @Valid Tag novaTag){
+        if (!repository.existsByName(novaTag.getNomeTag())){
+            repository.save(novaTag);
+        }else{throw new RuntimeException();}//Exception a ser criada - 409 - already exists
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(tagAssembler.toModel(novaTag));
+
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Tag> updateTag(@PathVariable(name = "id") Long id,@RequestBody Tag updatedTag){
+        Tag uptadedTag  = repository.findById(id).map(
+                tag -> {tag.setNomeTag(tag.getNomeTag());}
+            ).orElseThrow(() -> new RuntimeException("Não existe essa tag"));
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(updatedTag);
+
     }
 
 }
