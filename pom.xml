@@ -11,7 +11,7 @@
 	<groupId>com.senac.tsi</groupId>
 	<artifactId>FichasRPG</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>FichasRPG</name>
+	<nome>FichasRPG</nome>
 	<description>Api para construção e utilização de fichas de RPG para diferentes sistemas</description>
 	<url/>
 	<licenses>

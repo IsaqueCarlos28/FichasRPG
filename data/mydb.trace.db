@@ -181,3 +181,6 @@ alter table if exists recursos_ficha_inventario add constraint FKiqy364wxedkpb5g
 2026-04-09 15:25:22.254609-03:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECURSOS_FICHA" not found; SQL statement:
 alter table if exists recursos_ficha_posses add constraint FK4tas2rgp3i26i124r5r501mb2 foreign key (recursos_ficha_id) references recursos_ficha [42102-240]
+2026-04-14 14:11:47.719422-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table ficha_usuario_values (ficha_usuario_id bigint not null, [*]campos varchar(255), values_key varchar(255) not null, primary key (ficha_usuario_id, values_key))"; expected "identifier"; SQL statement:
+create table ficha_usuario_values (ficha_usuario_id bigint not null, campos varchar(255), values_key varchar(255) not null, primary key (ficha_usuario_id, values_key)) [42001-240]

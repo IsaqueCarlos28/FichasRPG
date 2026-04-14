@@ -64,7 +64,7 @@ public class GlobalExceptionHandler {
         body.put("error", "Conflict");
         body.put("message", ex.getMessage());
         body.put("resource", ex.getResource());
-        body.put("conflicted parameter",ex.getParameter());
+        body.put("conflicted parameter",ex.getValue());
 
         return ResponseEntity.badRequest().body(body);
     }

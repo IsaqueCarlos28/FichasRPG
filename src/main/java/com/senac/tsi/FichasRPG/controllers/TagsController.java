@@ -4,7 +4,7 @@ import com.senac.tsi.FichasRPG.assemblers.TagAssembler;
 import com.senac.tsi.FichasRPG.domains.tags.Tag;
 import com.senac.tsi.FichasRPG.exceptions.RPGAlreadyExistsException;
 import com.senac.tsi.FichasRPG.exceptions.RPGNotFoundException;
-import com.senac.tsi.FichasRPG.repositories.TagsRepository;
+import com.senac.tsi.FichasRPG.repositories.TagRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -26,11 +26,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/tags")
 public class TagsController {
 
-    private final TagsRepository repository;
+    private final TagRepository repository;
     private final PagedResourcesAssembler<Tag> pagedResourcesAssembler;
     private final TagAssembler tagAssembler;
 
-    TagsController(TagsRepository repository, PagedResourcesAssembler<Tag> pagedResourcesAssembler, TagAssembler tagAssembler) {
+    TagsController(TagRepository repository, PagedResourcesAssembler<Tag> pagedResourcesAssembler, TagAssembler tagAssembler) {
         this.repository = repository;
         this.pagedResourcesAssembler = pagedResourcesAssembler;
         this.tagAssembler = tagAssembler;
