@@ -16,7 +16,7 @@ public class FichaUsuarioAssembler implements RepresentationModelAssembler<Ficha
     @Override
     public EntityModel<FichaUsuario> toModel(FichaUsuario ficha){
         return EntityModel.of(ficha,
-                linkTo(methodOn(FichaUsuarioController.class).getFichaUsuarioById(ficha.getId())).withSelfRel()
+                linkTo(methodOn(FichaUsuarioController.class).getById(ficha.getId())).withSelfRel()
         );
     }
 }

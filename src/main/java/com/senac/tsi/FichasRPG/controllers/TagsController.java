@@ -91,7 +91,7 @@ public class TagsController {
     })
     @GetMapping("/{nome}")
     public ResponseEntity<EntityModel<Tag>> getTagByName(@PathVariable(name = "nome") String nome){
-        var tag = repository.findByName(nome).orElseThrow(
+        var tag = repository.findByNome(nome).orElseThrow(
                 ()-> new RuntimeException("Tag não encontrada")
         );
 
@@ -120,7 +120,7 @@ public class TagsController {
                   schema = @Schema(implementation = Tag.class),
             examples = @ExampleObject(value = "{ \"nomeTag\": }")))
         @RequestBody @Valid Tag novaTag){
-        if (!repository.existsByName(novaTag.getNomeTag())){
+        if (!repository.existsByNome(novaTag.getNomeTag())){
             repository.save(novaTag);
         }else{throw new RPGAlreadyExistsException("Tag","nome");}//Exception a ser criada - 409 - already exists
 
@@ -148,7 +148,7 @@ public class TagsController {
                                          @RequestBody Tag updatedTag){
             return repository.findById(id).map(
                     tag -> {
-                        if (repository.existsByNameAndIdNot(updatedTag.getNomeTag(),id)) {
+                        if (repository.existsByNomeAndIdNot(updatedTag.getNomeTag(),id)) {
                             throw new RPGAlreadyExistsException("Tag","nome");
                         } else {
                             tag.setNomeTag(updatedTag.getNomeTag());
@@ -160,7 +160,7 @@ public class TagsController {
 
                     }
                 ).orElseGet(()-> {
-                if (repository.existsByNameAndIdNot(updatedTag.getNomeTag(),id)) {
+                if (repository.existsByNomeAndIdNot(updatedTag.getNomeTag(),id)) {
                     throw new RPGAlreadyExistsException("Tag","nome");
                 } else {
                     repository.save(updatedTag);

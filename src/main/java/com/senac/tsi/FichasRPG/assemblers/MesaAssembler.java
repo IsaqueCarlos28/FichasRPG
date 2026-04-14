@@ -1,6 +1,6 @@
 package com.senac.tsi.FichasRPG.assemblers;
 
-import com.senac.tsi.FichasRPG.controllers.TagsController;
+import com.senac.tsi.FichasRPG.controllers.MesaRpgController;
 import com.senac.tsi.FichasRPG.domains.mesa.MesaRPG;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -14,7 +14,7 @@ public class MesaAssembler implements RepresentationModelAssembler<MesaRPG, Enti
     @Override
     public EntityModel<MesaRPG> toModel(MesaRPG mesa){
         return EntityModel.of(mesa,
-                linkTo(methodOn(TagsController.class).getTagById(mesa.getId())).withSelfRel()
+                linkTo(methodOn(MesaRpgController.class).getById(mesa.getId())).withSelfRel()
         );
     }
 }

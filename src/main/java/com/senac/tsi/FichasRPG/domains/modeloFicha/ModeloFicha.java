@@ -1,8 +1,9 @@
 package com.senac.tsi.FichasRPG.domains.modeloFicha;
 
 import com.senac.tsi.FichasRPG.exceptions.RPGAlreadyExistsException;
+import com.senac.tsi.FichasRPG.exceptions.RPGNotFoundException;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,14 +17,15 @@ public class ModeloFicha {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
+    @NotBlank
     private String sistemaRPG;
 
     @ElementCollection
     @CollectionTable(name = "modelo_ficha_campos",
             joinColumns = @JoinColumn(name = "modelo_ficha_id"))
     private List<CampoFicha> fields = new ArrayList<>();
+
+
 
     //CONSTRUCTORs
     protected ModeloFicha() {}
@@ -50,6 +52,7 @@ public class ModeloFicha {
         return Collections.unmodifiableList(fields);
     }
 
+    //METODOS
     public void addField(CampoFicha campo) {
         boolean exists = fields.stream()
                 .anyMatch(f -> f.getNome().equals(campo.getNome()));
@@ -62,8 +65,8 @@ public class ModeloFicha {
     public void deleteField(CampoFicha campo) {
         boolean exists = fields.stream()
                 .anyMatch(f -> f.getNome().equals(campo.getNome()));
-        if (exists) {
-            throw new RPGAlreadyExistsException("Nome", campo.getNome());
+        if (!exists) {
+            throw new RPGNotFoundException("Campo","nome",campo.getNome());
         }
 
         this.fields.remove(campo);

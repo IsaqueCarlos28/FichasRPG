@@ -1,9 +1,11 @@
 package com.senac.tsi.FichasRPG.domains.usuario;
 
+import com.senac.tsi.FichasRPG.domains.modeloFicha.ModeloFicha;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -30,11 +32,16 @@ public class FichaUsuario {
     @Column(name = "valor")
     private Map<String, String> campos = new HashMap<>();
 
+    @ManyToOne
+    @JoinColumn(name = "modelo_ficha_id")
+    private ModeloFicha modeloFicha;
+
     //CONSTRUCTOR
 
     protected FichaUsuario() {}
-    public FichaUsuario(String nomePersonagem, Map<String, String> values) {
+    public FichaUsuario(String nomePersonagem,ModeloFicha modeloFicha ,Map<String, String> values) {
         setNomePersonagem(nomePersonagem);
+        setModeloFicha(modeloFicha);
         setCampos(values);
     }
 
@@ -60,7 +67,15 @@ public class FichaUsuario {
         this.campos = campos;
     }
     public Map<String, String> getCampos() {
-        return campos;
+        return Collections.unmodifiableMap(campos);
+    }
+
+    public ModeloFicha getModeloFicha() {
+        return modeloFicha;
+    }
+
+    public void setModeloFicha(ModeloFicha modeloFicha) {
+        this.modeloFicha = modeloFicha;
     }
 
     //METODOS

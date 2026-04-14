@@ -6,74 +6,141 @@ import com.senac.tsi.FichasRPG.exceptions.RPGNotFoundException;
 import com.senac.tsi.FichasRPG.repositories.FichaUsuarioRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.PagedModel;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.*;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-
-@Tag(name = "Modelo Fichas / Sistemas")
 @RestController
-@RequestMapping("/fichas-modelos")
+@RequestMapping("/fichas-usuarios")
+@io.swagger.v3.oas.annotations.tags.Tag(name = "Fichas de Usuario")
 public class FichaUsuarioController {
 
     private final FichaUsuarioRepository repository;
-    private final FichaUsuarioAssembler fichaAssembler;
-    private final PagedResourcesAssembler<FichaUsuario> pagedResourcesAssembler;
+    private final FichaUsuarioAssembler assembler;
+    private final PagedResourcesAssembler<FichaUsuario> pagedAssembler;
 
-    FichaUsuarioController(FichaUsuarioRepository repository,
-                           PagedResourcesAssembler<FichaUsuario> pagedResourcesAssembler,
-                           FichaUsuarioAssembler assembler) {
+    public FichaUsuarioController(FichaUsuarioRepository repository,
+                                  PagedResourcesAssembler<FichaUsuario> pagedAssembler,
+                                  FichaUsuarioAssembler assembler) {
         this.repository = repository;
-        this.pagedResourcesAssembler = pagedResourcesAssembler;
-        this.fichaAssembler = assembler;
-
+        this.pagedAssembler = pagedAssembler;
+        this.assembler = assembler;
     }
 
-    @Operation(summary = "Listar todas as Tags",
-            description = "Retorna uma lista com todas as Tags existentes no sistema")
-    @ResponseStatus(HttpStatus.OK)
+    // ✅ GET ALL (all users)
+    @Operation(summary = "Listar todas as fichas de usuários")
     @GetMapping
-    public ResponseEntity<PagedModel<EntityModel<FichaUsuario>>> getAll(@ParameterObject Pageable pageable) {
-        var fichaUsuarios = repository.findAll(pageable);
+    public ResponseEntity<PagedModel<EntityModel<FichaUsuario>>> getAll(
+            @ParameterObject Pageable pageable) {
 
-        PagedModel<EntityModel<FichaUsuario>> pagedFichaUsuarios = pagedResourcesAssembler.toModel(fichaUsuarios, fichaAssembler);
+        var fichas = repository.findAll(pageable);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(pagedFichaUsuarios);
+        return ResponseEntity.ok(
+                pagedAssembler.toModel(fichas, assembler)
+        );
     }
 
-    @Operation(summary = "Pegar Modelo de Ficha pelo id",
-            description = "Retorna uma lista com todas os Modelo de Ficha existentes no sistema")
-    @ApiResponses(value= {
-            @ApiResponse(responseCode = "200",description = "Tag retornada com sucesso",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = FichaUsuario.class))),//Input invalido
-            @ApiResponse(responseCode = "404",description = "Tag não encontrada",
-                    content = @Content),//Not Found
-            @ApiResponse(responseCode = "400",description = "Input errado",
-                    content = @Content)//Input invalido
+    // ✅ GET BY ID
+    @Operation(summary = "Buscar ficha por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ficha encontrada",
+                    content = @Content(schema = @Schema(implementation = FichaUsuario.class))),
+            @ApiResponse(responseCode = "404", description = "Ficha não encontrada")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<FichaUsuario>> getFichaUsuarioById(@PathVariable(name = "id") long id){
-        var fichaUsuario = repository.findById(id).orElseThrow(
-                ()-> new RPGNotFoundException("Ficha de Usuario","id",id)
-        );
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(fichaAssembler.toModel(fichaUsuario));
+    public ResponseEntity<EntityModel<FichaUsuario>> getById(@PathVariable Long id) {
+
+        var ficha = repository.findById(id)
+                .orElseThrow(() -> new RPGNotFoundException("FichaUsuario","id",id));
+
+        return ResponseEntity.ok(assembler.toModel(ficha));
     }
 
+    // ✅ GET BY USUARIO
+    @Operation(summary = "Listar fichas por usuário")
+    @GetMapping("/usuarios/{usuarioId}")
+    public ResponseEntity<PagedModel<EntityModel<FichaUsuario>>> getByUsuario(
+            @PathVariable Long usuarioId,
+            @ParameterObject Pageable pageable) {
+
+        var fichas = repository.findByUsuario_Id(usuarioId, pageable);
+
+        return ResponseEntity.ok(
+                pagedAssembler.toModel(fichas, assembler)
+        );
+    }
+
+    // ✅ GET BY MODELO FICHA
+    @Operation(summary = "Listar fichas por modelo de ficha")
+    @GetMapping("/modelos/{modeloId}")
+    public ResponseEntity<PagedModel<EntityModel<FichaUsuario>>> getByModelo(
+            @PathVariable Long modeloId,
+            @ParameterObject Pageable pageable) {
+
+        var fichas = repository.findByModeloFicha_Id(modeloId, pageable);
+
+        return ResponseEntity.ok(
+                pagedAssembler.toModel(fichas, assembler)
+        );
+    }
+
+    // ✅ CREATE
+    @Operation(summary = "Criar ficha de usuário")
+    @PostMapping
+    public ResponseEntity<EntityModel<FichaUsuario>> create(
+            @RequestBody FichaUsuario ficha) {
+
+        repository.save(ficha);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(assembler.toModel(ficha));
+    }
+
+    // ✅ UPDATE
+    @Operation(summary = "Atualizar ficha de usuário")
+    @PutMapping("/{id}")
+    public ResponseEntity<EntityModel<FichaUsuario>> update(
+            @PathVariable Long id,
+            @RequestBody FichaUsuario updated) {
+
+        return repository.findById(id).map(ficha -> {
+
+            ficha.setNomePersonagem(updated.getNomePersonagem());
+            ficha.setCampos(updated.getCampos());
+            ficha.setUsuario(updated.getUsuario());
+
+            repository.save(ficha);
+
+            return ResponseEntity.ok(assembler.toModel(ficha));
+
+        }).orElseGet(() -> {
+
+            repository.save(updated);
+
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(assembler.toModel(updated));
+        });
+    }
+
+    // ✅ DELETE
+    @Operation(summary = "Deletar ficha de usuário")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+
+        var ficha = repository.findById(id)
+                .orElseThrow(() -> new RPGNotFoundException("FichaUsuario","id",id));
+
+        repository.delete(ficha);
+
+        return ResponseEntity.noContent().build();
+    }
 }

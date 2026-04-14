@@ -17,7 +17,7 @@ public class ModeloFichaAssembler implements RepresentationModelAssembler<Modelo
     @Override
     public EntityModel<ModeloFicha> toModel(ModeloFicha modelo){
         return EntityModel.of(modelo,
-                linkTo(methodOn(ModeloFichaController.class).getModeloFichaById(modelo.getId())).withSelfRel()
+                linkTo(methodOn(ModeloFichaController.class).getById(modelo.getId())).withSelfRel()
         );
     }
 }

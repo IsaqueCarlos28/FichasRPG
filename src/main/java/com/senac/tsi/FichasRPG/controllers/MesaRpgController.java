@@ -1,12 +1,18 @@
 package com.senac.tsi.FichasRPG.controllers;
 
 
+import com.senac.tsi.FichasRPG.assemblers.JogadorAssembler;
+import com.senac.tsi.FichasRPG.domains.mesa.Jogador;
 import com.senac.tsi.FichasRPG.domains.mesa.MesaRPG;
+import com.senac.tsi.FichasRPG.domains.mesa.Papel;
+import com.senac.tsi.FichasRPG.exceptions.RPGAlreadyExistsException;
 import com.senac.tsi.FichasRPG.exceptions.RPGNotFoundException;
 import com.senac.tsi.FichasRPG.assemblers.MesaAssembler;
 
+import com.senac.tsi.FichasRPG.repositories.JogadorRepository;
 import com.senac.tsi.FichasRPG.repositories.MesasRPGRepository;
 import com.senac.tsi.FichasRPG.repositories.TagRepository;
+import com.senac.tsi.FichasRPG.repositories.UsuarioRepository;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -16,21 +22,30 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/mesas")
-public class MesaRPGController {
+public class MesaRpgController {
 
     private final MesasRPGRepository repository;
     private final TagRepository tagRepository;
+    private final JogadorRepository jogadorRepository;
+    private final UsuarioRepository usuarioRepository;
     private final PagedResourcesAssembler<MesaRPG> pagedAssembler;
     private final MesaAssembler assembler;
+    private final JogadorAssembler jogadorAssembler;
 
-    public MesaRPGController(MesasRPGRepository repository,
+    public MesaRpgController(MesasRPGRepository repository,
                              PagedResourcesAssembler<MesaRPG> pagedAssembler,
                              MesaAssembler assembler,
-                             TagRepository tagsRepository) {
+                             TagRepository tagsRepository,
+                             JogadorRepository jogadorRepository,
+                             UsuarioRepository usuarioRepository,
+                             JogadorAssembler jogadorAssembler) {
         this.repository = repository;
         this.pagedAssembler = pagedAssembler;
         this.assembler = assembler;
         this.tagRepository = tagsRepository;
+        this.jogadorRepository = jogadorRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.jogadorAssembler = jogadorAssembler;
     }
 
     @GetMapping
@@ -110,6 +125,39 @@ public class MesaRPGController {
         return ResponseEntity.ok(assembler.toModel(mesa));
     }
 
+    @PutMapping("/{mesaId}/jogadores/{usuarioId}")
+    public ResponseEntity<EntityModel<Jogador>> adicionarJogador(
+            @PathVariable Long mesaId,
+            @PathVariable Long usuarioId,
+            @RequestParam(defaultValue = "PLAYER") Papel papel) {
+
+        var mesa = repository.findById(mesaId)
+                .orElseThrow(() -> new RPGNotFoundException("Mesa","id",mesaId));
+
+        var usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RPGNotFoundException("Usuario","id",usuarioId));
+
+        var jogadorOpt = jogadorRepository
+                .findByMesa_IdAndUsuario_Id(mesaId, usuarioId);
+
+        // ✅ Idempotent
+        if (jogadorOpt.isPresent()) {
+            return ResponseEntity.ok(jogadorAssembler.toModel(jogadorOpt.get()));
+        }
+
+        // ❗ Only one MASTER
+        if (papel == Papel.MASTER &&
+                jogadorRepository.existsByMesa_IdAndPapel(mesaId, Papel.MASTER)) {
+
+            throw new RPGAlreadyExistsException("Mesa","master");
+        }
+
+        Jogador jogador = new Jogador(usuario, mesa, papel);
+        jogadorRepository.save(jogador);
+
+        return ResponseEntity.ok(jogadorAssembler.toModel(jogador));
+    }
+
     @DeleteMapping("/{mesaId}/tags/{tagId}")
     public ResponseEntity<Void> removeTag(
             @PathVariable Long mesaId,
@@ -126,6 +174,20 @@ public class MesaRPGController {
             mesa.removeTag(tag);
             repository.save(mesa);
         }
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{mesaId}/jogadores/{usuarioId}")
+    public ResponseEntity<Void> removerJogador(
+            @PathVariable Long mesaId,
+            @PathVariable Long usuarioId) {
+
+        var jogador = jogadorRepository
+                .findByMesa_IdAndUsuario_Id(mesaId, usuarioId)
+                .orElseThrow(() -> new RPGNotFoundException("Jogador","usuario/mesa",usuarioId));
+
+        jogadorRepository.delete(jogador);
 
         return ResponseEntity.noContent().build();
     }

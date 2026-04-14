@@ -19,7 +19,7 @@ public class Tag {
     @NotBlank
     @Size(min = 2,max = 30,message = "Numero de caracteres Invalidos")
     @Column(length = 30,nullable = false)
-    private String nomeTag;
+    private String nome;
 
     @ManyToMany(mappedBy = "tags")
     private List<MesaRPG> mesas = new ArrayList<>();
@@ -38,10 +38,10 @@ public class Tag {
     }
 
     public String getNomeTag() {
-        return nomeTag;
+        return nome;
     }
     public void setNomeTag(String nomeTag) {
-        this.nomeTag = nomeTag;
+        this.nome = nomeTag;
     }
 
     public List<MesaRPG> getMesas() {
@@ -75,6 +75,6 @@ public class Tag {
         return """
                 id: %d
                 tag: %s
-                """.formatted(id, nomeTag);
+                """.formatted(id, nome);
     }
 }

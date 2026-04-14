@@ -1,6 +1,7 @@
 package com.senac.tsi.FichasRPG.assemblers;
 
 import com.senac.tsi.FichasRPG.controllers.TagsController;
+import com.senac.tsi.FichasRPG.controllers.UsuarioController;
 import com.senac.tsi.FichasRPG.domains.usuario.Usuario;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -14,7 +15,7 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, E
     @Override
     public EntityModel<Usuario> toModel(Usuario usuario){
         return EntityModel.of(usuario,
-                linkTo(methodOn(TagsController.class).getTagById(usuario.getId())).withSelfRel()
+                linkTo(methodOn(UsuarioController.class).getById(usuario.getId())).withSelfRel()
         );
     }
 }
